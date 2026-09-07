@@ -38,9 +38,11 @@ class AppTheme {
             borderSide: const BorderSide(color: AppColors.primary, width: 1.6),
           ),
         ),
+        // Sin `minimumSize`: si se fija aqui los botones de los AlertDialog
+        // ocuparian todo el ancho y terminarian apilandose uno bajo otro.
+        // El alto de los botones de formulario se define en [botonDeFormulario].
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
-            minimumSize: const Size.fromHeight(50),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

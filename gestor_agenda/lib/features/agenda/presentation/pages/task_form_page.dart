@@ -218,6 +218,9 @@ class _TaskFormPageState extends State<TaskFormPage> {
                     ),
                     const SizedBox(height: 32),
                     FilledButton.icon(
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
                       onPressed: cargando ? null : _guardar,
                       icon: cargando
                           ? const SizedBox(
