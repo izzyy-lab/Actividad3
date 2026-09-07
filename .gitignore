@@ -1,0 +1,27 @@
+# --- Entornos virtuales de Python ---
+backend_env/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# --- Base de datos local ---
+*.db
+*.sqlite3
+
+# --- Variables de entorno ---
+.env
+
+# --- Flutter / Dart ---
+gestor_agenda/.dart_tool/
+gestor_agenda/build/
+gestor_agenda/.flutter-plugins-dependencies
+gestor_agenda/android/.gradle/
+gestor_agenda/android/local.properties
+
+# --- Editores y sistema operativo ---
+.idea/
+.vscode/
+*.iml
+Thumbs.db
+.DS_Store
