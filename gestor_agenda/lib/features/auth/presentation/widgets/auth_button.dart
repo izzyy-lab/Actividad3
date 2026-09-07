@@ -16,6 +16,9 @@ class AuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton(
+      // El alto se fija aqui y no en el tema, para no afectar
+      // a los botones de los dialogos.
+      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(50)),
       onPressed: cargando ? null : onPressed,
       child: cargando
           ? const SizedBox(
