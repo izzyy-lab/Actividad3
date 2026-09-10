@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Necesario para que el APK de release pueda llamar a la API desplegada. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="gestor_agenda"
         android:name="${applicationName}"
