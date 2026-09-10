@@ -10,14 +10,14 @@ reparto de módulos y GitFlow) está en el [README de la raíz](../README.md).
 
 ```bash
 flutter pub get
-flutter run -d chrome          # Web
-flutter run -d emulator-5554   # Android
+flutter run -d chrome                              # usa la API de Vercel
+flutter run -d chrome --dart-define=API_LOCAL=true # usa el backend de tu PC
+flutter build apk --release                        # APK Android
 ```
 
-> El backend debe estar corriendo en `http://127.0.0.1:8000`.
-> La URL base se resuelve sola por plataforma en
-> [`lib/core/constants/api_constants.dart`](lib/core/constants/api_constants.dart):
-> `127.0.0.1` en Web y `10.0.2.2` en el emulador de Android.
+> Por defecto la app consume la API desplegada en `https://gestor-agenda-api.vercel.app/api`.
+> Con `API_LOCAL=true` usa `127.0.0.1:8000` en Web y `10.0.2.2:8000` en el emulador de Android.
+> Todo se resuelve en [`lib/core/constants/api_constants.dart`](lib/core/constants/api_constants.dart).
 
 ## Verificar
 
