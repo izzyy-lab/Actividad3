@@ -7,9 +7,11 @@ trabajo colaborativo **GitFlow**.
 | | |
 |---|---|
 | Frontend | Flutter 3.47 · Dart 3.13 · Provider · http · shared_preferences · intl |
-| Backend | FastAPI · SQLAlchemy 2 · SQLite · JWT (python-jose) · bcrypt |
+| Backend | FastAPI · SQLAlchemy 2 · JWT (python-jose) · bcrypt |
+| Base de datos | PostgreSQL en Neon (producción) · SQLite (desarrollo local) |
+| Despliegue | API en Vercel: <https://gestor-agenda-api.vercel.app> |
 | Plataformas | Android y Web |
-| Pruebas | 41 pruebas Flutter + 19 verificaciones de la API |
+| Pruebas | 42 pruebas Flutter + 19 verificaciones de la API |
 
 ---
 
@@ -17,7 +19,7 @@ trabajo colaborativo **GitFlow**.
 
 ```
 Actividad3/
-├── backend/            API REST (FastAPI + SQLAlchemy + SQLite)
+├── backend/            API REST (FastAPI + SQLAlchemy; PostgreSQL o SQLite)
 ├── gestor_agenda/      Aplicación Flutter (Clean Architecture)
 ├── GITFLOW.md          Guía del flujo de ramas del equipo
 └── README.md
@@ -117,7 +119,10 @@ siempre con hash bcrypt, nunca en texto plano.
 
 ## 5. Endpoints de la API
 
-Base: `http://127.0.0.1:8000/api` · Documentación interactiva: `http://127.0.0.1:8000/docs`
+| | Base de la API | Documentación interactiva |
+|---|---|---|
+| Producción (Vercel) | `https://gestor-agenda-api.vercel.app/api` | <https://gestor-agenda-api.vercel.app/docs> |
+| Local | `http://127.0.0.1:8000/api` | <http://127.0.0.1:8000/docs> |
 
 ### Autenticación (Aprendiz A)
 
@@ -145,9 +150,26 @@ token, nunca del cuerpo de la petición, y las tareas ajenas responden `404`.
 
 ---
 
-## 6. Cómo ejecutar el proyecto
+## 6. Despliegue en producción (Vercel + Neon)
 
-### 6.1 Backend
+```
+ App Flutter ──HTTPS──► API FastAPI en Vercel ──SQL──► PostgreSQL en Neon
+                        gestor-agenda-api.vercel.app   (integración de Vercel)
+```
+
+- **Vercel** construye la carpeta `backend/` en cada push a `main`: detecta FastAPI,
+  usa Python 3.12 (`backend/.python-version`) e instala `requirements.txt`.
+  La API corre como función *serverless*.
+- **Neon** aloja la base PostgreSQL. Al conectarla desde *Vercel → Storage* agrega sola
+  la variable `DATABASE_URL`; `app/core/config.py` la adapta al driver `psycopg`.
+- Variables del proyecto en Vercel: `DATABASE_URL` (la pone Neon) y `SECRET_KEY`
+  (clave para firmar los JWT). Si falta alguna, la API se detiene con un mensaje claro
+  en los logs en vez de arrancar mal configurada.
+- En Vercel el disco es de sólo lectura: por eso allí no se puede usar SQLite.
+
+## 7. Cómo ejecutar el proyecto en local
+
+### 7.1 Backend
 
 ```bash
 cd backend
@@ -160,31 +182,32 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 La base `agenda.db` se crea sola en el primer arranque.
 Verifica en el navegador: <http://127.0.0.1:8000/docs>
 
-### 6.2 Aplicación Flutter
+### 7.2 Aplicación Flutter
 
 ```bash
 cd gestor_agenda
 flutter pub get
-flutter run -d chrome          # Web
-flutter run -d emulator-5554   # Android
+flutter run -d chrome                              # Web, contra la API de Vercel
+flutter run -d chrome --dart-define=API_LOCAL=true # Web, contra el backend de tu PC
+flutter build apk --release                        # APK Android (usa la API de Vercel)
 ```
 
-> **Importante — URL de la API.** `lib/core/constants/api_constants.dart` cambia la URL base
-> automáticamente según la plataforma: en Web usa `127.0.0.1:8000`, y en Android usa
-> `10.0.2.2:8000`, que es como el emulador ve el `localhost` del PC. Si pruebas en un
-> teléfono físico, reemplaza esa IP por la de tu computador en la red local.
+> **URL de la API** (`lib/core/constants/api_constants.dart`). Por defecto la app usa la API
+> de Vercel. Con `--dart-define=API_LOCAL=true` usa el backend local: `127.0.0.1:8000` en Web
+> y `10.0.2.2:8000` en el emulador de Android (así ve el emulador el `localhost` del PC).
+> Con `--dart-define=API_URL=https://...` se puede apuntar a cualquier otra API.
 
-### 6.3 Pruebas
+### 7.3 Pruebas
 
 ```bash
 cd gestor_agenda
 flutter analyze     # 0 issues
-flutter test        # 41 pruebas
+flutter test        # 42 pruebas
 ```
 
 ---
 
-## 7. Flujo de la aplicación
+## 8. Flujo de la aplicación
 
 ```
                   ┌──────────────┐
@@ -217,7 +240,7 @@ flutter test        # 41 pruebas
 
 ---
 
-## 8. Flujo de trabajo GitFlow
+## 9. Flujo de trabajo GitFlow
 
 Ver [GITFLOW.md](GITFLOW.md) para el detalle de ramas, convención de commits y
 el paso a paso de una feature completa.
