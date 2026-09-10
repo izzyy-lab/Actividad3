@@ -237,7 +237,10 @@ flutter test        # 42 pruebas
 - CRUD completo de tareas con estado, prioridad, fecha y hora.
 - Filtros por estado, marcado rápido con checkbox, resaltado de tareas vencidas,
   `pull to refresh` y estados vacíos / de error con botón de reintento.
-
+cd gestor_agenda
+flutter pub get
+flutter run -d chrome          # Web
+flutter run -d emulator-5554   # Android
 ---
 
 ## 9. Flujo de trabajo GitFlow
