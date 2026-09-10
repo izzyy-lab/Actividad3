@@ -5,3 +5,4 @@ pydantic[email]==2.13.5
 python-jose[cryptography]==3.5.0
 bcrypt==5.0.0
 python-multipart==0.0.32
+psycopg[binary]==3.2.10
