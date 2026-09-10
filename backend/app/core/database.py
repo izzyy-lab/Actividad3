@@ -6,7 +6,8 @@ from app.core.config import DATABASE_URL
 
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 
-engine = create_engine(DATABASE_URL, connect_args=connect_args)
+# pool_pre_ping descarta conexiones que el servidor de BD cerro por inactividad.
+engine = create_engine(DATABASE_URL, connect_args=connect_args, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
