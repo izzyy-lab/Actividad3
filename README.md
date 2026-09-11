@@ -1,5 +1,14 @@
 # Taller 3 — Flutter "Gestor de Agenda"
 
+## 👥 Integrantes
+
+| Nombre | Edad | Programa | Ficha |
+|---|---|---|---|
+| Felipe Echeverri | 19 años | ADSO | 3256538 |
+| Vicente Rios | 18 años | ADSO | 3256538 |
+
+## 📱 Descripción
+
 Aplicación móvil en **Flutter** (Android + Web) conectada a una **API REST en FastAPI**
 con **base de datos relacional**, organizada bajo **Clean Architecture** y con flujo de
 trabajo colaborativo **GitFlow**.
