@@ -9,7 +9,7 @@ trabajo colaborativo **GitFlow**.
 | Frontend | Flutter 3.47 · Dart 3.13 · Provider · http · shared_preferences · intl |
 | Backend | FastAPI · SQLAlchemy 2 · JWT (python-jose) · bcrypt |
 | Base de datos | PostgreSQL en Neon (producción) · SQLite (desarrollo local) |
-| Despliegue | API en Vercel: <https://gestor-agenda-api.vercel.app> |
+| Despliegue | App web: <https://gestor-agenda-web.vercel.app> · API: <https://gestor-agenda-api.vercel.app> |
 | Plataformas | Android y Web |
 | Pruebas | 42 pruebas Flutter + 19 verificaciones de la API |
 
@@ -152,12 +152,20 @@ token, nunca del cuerpo de la petición, y las tareas ajenas responden `404`.
 
 ## 6. Despliegue en producción (Vercel + Neon)
 
+| Pieza | URL | Proyecto en Vercel |
+|---|---|---|
+| App web (Flutter) | <https://gestor-agenda-web.vercel.app> | `gestor-agenda-web` (carpeta `gestor_agenda/`) |
+| API REST (FastAPI) | <https://gestor-agenda-api.vercel.app> | `gestor-agenda-api` (carpeta `backend/`) |
+| Base de datos | PostgreSQL en Neon | integración de Vercel conectada a la API |
+
 ```
- App Flutter ──HTTPS──► API FastAPI en Vercel ──SQL──► PostgreSQL en Neon
-                        gestor-agenda-api.vercel.app   (integración de Vercel)
+ Flutter Web / APK ──HTTPS──► API FastAPI en Vercel ──SQL──► PostgreSQL en Neon
 ```
 
-- **Vercel** construye la carpeta `backend/` en cada push a `main`: detecta FastAPI,
+- **Frontend:** Vercel no trae Flutter, así que `gestor_agenda/vercel.json` ejecuta
+  `scripts/vercel_install.sh` (clona Flutter 3.47.0), compila con `flutter build web --release`
+  y publica `build/web`. Sólo se reconstruye cuando cambia la carpeta `gestor_agenda/`.
+- **Backend:** Vercel construye la carpeta `backend/` en cada push a `main`: detecta FastAPI,
   usa Python 3.12 (`backend/.python-version`) e instala `requirements.txt`.
   La API corre como función *serverless*.
 - **Neon** aloja la base PostgreSQL. Al conectarla desde *Vercel → Storage* agrega sola
