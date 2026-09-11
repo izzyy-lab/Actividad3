@@ -4,6 +4,23 @@ Aplicación móvil en **Flutter** (Android + Web) conectada a una **API REST en 
 con **base de datos relacional**, organizada bajo **Clean Architecture** y con flujo de
 trabajo colaborativo **GitFlow**.
 
+## 🚀 Despliegues
+
+| Qué | Ruta |
+|---|---|
+| **App web (Flutter)** | <https://gestor-agenda-web.vercel.app> |
+| **API REST (base)** | `https://gestor-agenda-api.vercel.app/api` |
+| Estado de la API | <https://gestor-agenda-api.vercel.app/> |
+| Documentación Swagger | <https://gestor-agenda-api.vercel.app/docs> |
+| Documentación ReDoc | <https://gestor-agenda-api.vercel.app/redoc> |
+| Repositorio | <https://github.com/izzyy-lab/Actividad3> |
+| App Android | `flutter build apk --release` → `gestor_agenda/build/app/outputs/flutter-apk/app-release.apk` |
+
+**Usuario de prueba:** `demo.vercel@sena.edu.co` / `demo1234` (o registra uno nuevo desde la app).
+
+> La API usa el plan gratuito de Vercel: la primera petición después de un rato sin uso
+> puede tardar unos segundos mientras la función arranca.
+
 | | |
 |---|---|
 | Frontend | Flutter 3.47 · Dart 3.13 · Provider · http · shared_preferences · intl |
@@ -148,6 +165,30 @@ siempre con hash bcrypt, nunca en texto plano.
 Cada usuario sólo ve y modifica sus propias tareas: el `usuario_id` se toma del
 token, nunca del cuerpo de la petición, y las tareas ajenas responden `404`.
 
+### Rutas completas en producción
+
+```text
+POST   https://gestor-agenda-api.vercel.app/api/auth/register
+POST   https://gestor-agenda-api.vercel.app/api/auth/login
+POST   https://gestor-agenda-api.vercel.app/api/auth/forgot-password
+POST   https://gestor-agenda-api.vercel.app/api/auth/reset-password
+GET    https://gestor-agenda-api.vercel.app/api/auth/me
+PUT    https://gestor-agenda-api.vercel.app/api/auth/me
+GET    https://gestor-agenda-api.vercel.app/api/tasks?estado=pendiente
+POST   https://gestor-agenda-api.vercel.app/api/tasks
+GET    https://gestor-agenda-api.vercel.app/api/tasks/{id}
+PUT    https://gestor-agenda-api.vercel.app/api/tasks/{id}
+DELETE https://gestor-agenda-api.vercel.app/api/tasks/{id}
+```
+
+Ejemplo rápido desde la terminal:
+
+```bash
+curl -X POST https://gestor-agenda-api.vercel.app/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "demo.vercel@sena.edu.co", "password": "demo1234"}'
+```
+
 ---
 
 ## 6. Despliegue en producción (Vercel + Neon)
@@ -174,6 +215,8 @@ token, nunca del cuerpo de la petición, y las tareas ajenas responden `404`.
   (clave para firmar los JWT). Si falta alguna, la API se detiene con un mensaje claro
   en los logs en vez de arrancar mal configurada.
 - En Vercel el disco es de sólo lectura: por eso allí no se puede usar SQLite.
+
+---
 
 ## 7. Cómo ejecutar el proyecto en local
 
@@ -245,10 +288,7 @@ flutter test        # 42 pruebas
 - CRUD completo de tareas con estado, prioridad, fecha y hora.
 - Filtros por estado, marcado rápido con checkbox, resaltado de tareas vencidas,
   `pull to refresh` y estados vacíos / de error con botón de reintento.
-cd gestor_agenda
-flutter pub get
-flutter run -d chrome          # Web
-flutter run -d emulator-5554   # Android
+
 ---
 
 ## 9. Flujo de trabajo GitFlow
