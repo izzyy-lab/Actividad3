@@ -1,11 +1,11 @@
 {
-    "name": "gestor_agenda",
-    "short_name": "gestor_agenda",
+    "name": "Gestor de Agenda",
+    "short_name": "Agenda",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F5F7FB",
+    "theme_color": "#2E5BFF",
+    "description": "Gestor de Agenda - Taller 3 SENA: agenda de tareas en Flutter con API FastAPI.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

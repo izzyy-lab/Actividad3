@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "bash scripts/vercel_install.sh",
+  "buildCommand": "$HOME/flutter/bin/flutter build web --release",
+  "outputDirectory": "build/web",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ."
+}
