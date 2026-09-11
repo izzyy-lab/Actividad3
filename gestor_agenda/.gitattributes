@@ -1,0 +1,2 @@
+# Los scripts se ejecutan en Linux (Vercel): siempre con finales LF.
+*.sh text eol=lf
